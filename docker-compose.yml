@@ -1,0 +1,77 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  api:
+    build: .
+    command: ["poetry", "run", "taskforge", "api"]
+    ports:
+      - "8000:8000"
+    environment:
+      - RABBITMQ_URL=amqp://rabbitmq:5672/
+      - POSTGRES_URL=postgresql+asyncpg://postgres:password@db:5432/taskforge
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - rabbitmq
+      - db
+      - redis
+
+  worker:
+    build: .
+    command: ["poetry", "run", "taskforge", "worker"]
+    environment:
+      - RABBITMQ_URL=amqp://rabbitmq:5672/
+      - POSTGRES_URL=postgresql+asyncpg://postgres:password@db:5432/taskforge
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - rabbitmq
+      - db
+      - redis
+    deploy:
+      replicas: 2
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  db:
+    image: postgres:14
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=taskforge
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+volumes:
+  postgres_data:
+  rabbitmq_data:
+  redis_data:
+  

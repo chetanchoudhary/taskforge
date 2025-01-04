@@ -41,7 +41,7 @@ class SendEmailJob(Job[EmailJobInput, EmailJobOutput]):
         # Implement email sending logic
         return EmailJobOutput(
             message_id="123",
-            sent_at=datetime.utcnow()
+            sent_at=datetime.now(timezone.utc)
         )
 ```
 

@@ -2,14 +2,9 @@
 
 <div align="center">
 
-![TaskForge Logo](assets/logo.png)
 
 **A Modern, Type-Safe Distributed Job Processing Framework**
 
-[![PyPI version](https://badge.fury.io/py/taskforge.svg)](https://badge.fury.io/py/taskforge)
-[![Python](https://img.shields.io/pypi/pyversions/taskforge.svg?style=flat)](https://pypi.org/project/taskforge/)
-[![License](https://img.shields.io/github/license/taskforge/taskforge.svg)](https://github.com/taskforge/taskforge/blob/main/LICENSE)
-[![Documentation Status](https://readthedocs.org/projects/taskforge/badge/?version=latest)](https://taskforge.readthedocs.io/en/latest/?badge=latest)
 
 </div>
 
@@ -332,11 +327,7 @@ TASKFORGE_TRACING_ENABLED: true
 TASKFORGE_TRACING_EXPORTER: jaeger
 ```
 
-## Community
 
-- 📫 [GitHub Discussions](https://github.com/taskforge/taskforge/discussions)
-- 💬 [Discord Community](https://discord.gg/taskforge)
-- 🐦 [Twitter Updates](https://twitter.com/taskforge)
 
 ## Contributing
 
